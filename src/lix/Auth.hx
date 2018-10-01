@@ -130,7 +130,7 @@ class CognitoAuth {
 }
 
 @:jsRequire('amazon-cognito-auth-js', 'CognitoAuth')
-extern class Impl {
+private extern class Impl {
 	var userhandler:{
 		onSuccess:Session->Void,
 		onFailure:js.Error->Void,
