@@ -94,7 +94,7 @@ class FileStorage {
 class CognitoAuth {
 	public var result:Promise<Session>;
 	public var isSignedIn(get, never):Bool;
-	var impl:Impl;
+	var impl:aws.cognito.CognitoAuth;
 	
 	public function new() {
 		// Some hacks to make the cognito library work in nodejs
@@ -102,7 +102,7 @@ class CognitoAuth {
 		js.Node.global.btoa = js.Lib.require('btoa');
 		js.Node.global.window = {open: url -> js.Lib.require('opn')(url, {wait: false})}
 		
-		impl = new Impl({
+		impl = new aws.cognito.CognitoAuth({
 			ClientId: 'fvrf50i7h5od9nr1bq4pefcg3',
 			AppWebDomain: 'lix.auth.us-east-2.amazoncognito.com',
 			RedirectUriSignIn: 'http://localhost:51379/callback',
@@ -114,7 +114,12 @@ class CognitoAuth {
 		
 		result = Future.async(function(cb) {
 			impl.userhandler = {
-				onSuccess: session -> cb(Success(session)),
+				onSuccess: session -> cb(Success({
+					idToken: session.idToken.jwtToken,
+					accessToken: session.accessToken.jwtToken,
+					refreshToken: session.refreshToken.refreshToken,
+					scopes: session.tokenScopes.tokenScopes,
+				})),
 				onFailure: e -> cb(Failure(Error.ofJsError(e))),
 			}
 		});
@@ -132,69 +137,9 @@ class CognitoAuth {
 	inline function get_isSignedIn() return impl.isUserSignedIn();
 }
 
-@:jsRequire('amazon-cognito-auth-js', 'CognitoAuth')
-private extern class Impl {
-	var userhandler:{
-		onSuccess:Session->Void,
-		onFailure:js.Error->Void,
-	}
-	function new(config:{});
-	function setState(v:String):Void;
-	function getSession():Void;
-	function useCodeGrantFlow():Void;
-	function parseCognitoWebResponse(href:String):Void;
-	function getSignInUserSession():Session;
-	function signOut():Void;
-	function isUserSignedIn():Bool;
-}
-
 typedef Session = {
-	accessToken: {jwtToken:String, payload:AccessTokenPayload},
-	idToken: {jwtToken:String, payload:IdTokenPayload},
-	refresToken: {refresToken:String},
-	state:String,
-	tokenScopes: {tokenScopes:Array<String>},
-}
-
-typedef AccessTokenPayload = {
-	auth_time:Int,
-	exp:Int,
-	iat:Int,
-	// "cognito:groups":Array<String>,
-	client_id:String,
-	iss:String,
-	jti:String,
-	scope:String,
-	sub:String,
-	token_use:String,
-	username:String,
-	version:Int,
-}
-
-typedef IdTokenPayload = {
-	auth_time:Int,
-	exp:Int,
-	iat:Int,
-	updated_at:Int,
-	email_verified:Bool,
-	identities:Array<{
-		dateCreated:String,
-		issuer:String,
-		primary:String,
-		providerName:String,
-		providerType:String,
-		userId:String,
-	}>,
-	// "cognito:groups": String
-	// "cognito:username": String
-	at_hash:String,
-	aud:String,
-	email:String,
-	iss:String,
-	name:String,
-	picture:String,
-	profile:String,
-	sub:String,
-	token_use:String,
-	website:String,
+	idToken:String,
+	accessToken:String,
+	refreshToken:String,
+	scopes:Array<String>,
 }
