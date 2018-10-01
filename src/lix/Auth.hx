@@ -14,14 +14,17 @@ using sys.FileSystem;
 using tink.CoreApi;
 
 class Auth {
-	public static function isSignedIn():Bool
-		return new CognitoAuth().isSignedIn;
+	var auth:CognitoAuth;
+	public function new()
+		auth = new CognitoAuth();
+		
+	public function isSignedIn():Bool
+		return auth.isSignedIn;
 	
-	public static function getSession():Promise<Session> {
+	public function getSession():Promise<Session> {
 		return Future.async(function(cb) {
 			// start a web server to handle oauth callback
 			var container = new NodeContainer(51379);
-			var auth = new CognitoAuth();
 			var router = new Router<Root>(new Root(auth));
 			container.run(req -> router.route(Context.ofRequest(req)).recover(OutgoingResponse.reportError))
 				.handle(function(o) switch o {
