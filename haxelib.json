@@ -1,0 +1,17 @@
+{
+  "name": "lix.sdk",
+  "license": "MIT",
+  "tags": [
+    "lix"
+  ],
+  "classPath": "src",
+  "contributors": [
+    "kevinresol"
+  ],
+  "releasenote": "initial release",
+  "version": "0.0.0",
+  "dependencies": {
+    "lix.server": "",
+    "tink_web": ""
+  }
+}

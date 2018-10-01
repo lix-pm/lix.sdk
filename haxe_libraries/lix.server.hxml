@@ -1,0 +1,3 @@
+-cp ../lix.server/lib
+-lib tink_sql
+-lib tink_url

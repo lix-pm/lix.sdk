@@ -1,0 +1,3 @@
+-cp src
+-lib lix.server
+-lib tink_web

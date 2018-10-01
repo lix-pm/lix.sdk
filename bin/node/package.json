@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "amazon-cognito-auth-js": "^1.2.4",
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "opn": "^5.4.0"
+  }
+}
