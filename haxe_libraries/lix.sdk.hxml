@@ -1,4 +1,6 @@
 -cp src
+-lib asys
+-lib archive
 -lib lix.server
 -lib tink_web
 -lib hxjs-amazon-cognito-auth-js
