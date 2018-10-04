@@ -7,13 +7,6 @@ using tink.CoreApi;
 
 class RunTests {
   static function main() {
-    var packager = new lix.Packager(
-      new archive.zip.NodeZip(),
-      new archive.scanner.AsysScanner(Sys.getCwd(), ''),
-      {ignore: try sys.io.File.getContent('.lixignore') catch(e:Dynamic) null}
-    );
-    packager.pack().pipeTo(asys.io.File.writeStream('./test.zip')).handle(o -> trace(o));
-    
     var json:lix.Json = {
       name: 'name',
       license: 'license',
@@ -36,13 +29,13 @@ class RunTests {
     // var s = tink.Json.stringify(json);
     // trace(haxe.Json.stringify(haxe.Json.parse(s), '  '));
     
-    // var auth = new lix.Auth();
+    var auth = new lix.Auth();
     // // trace(auth.isSignedIn());
     // // auth.getSession().handle(function(o) trace(o.sure()));
-    // var remote = new lix.Remote(
-    //   #if (environment == "local") new NodeClient() #else new SecureNodeClient() #end, 
-    //   () -> auth.getSession().next(session -> session.idToken)
-    // );
+    var remote = new lix.Remote(
+      #if (environment == "local") new NodeClient() #else new SecureNodeClient() #end, 
+      () -> auth.getSession().next(session -> session.idToken)
+    );
     
     // remote.version().handle(function(o) switch o {
     //   case Success(v): trace(v.hash.substr(0, 8) + ' ' + v.buildDate);
@@ -62,5 +55,6 @@ class RunTests {
     //     case Success(user): trace('Logged in as ${user.username}');
     //     case Failure(e): trace(e);
     //   });
+    var submitter = new lix.Submitter(remote, new archive.zip.NodeZip(), archive.scanner.AsysScanner.new.bind(_, ''));
   }
 }

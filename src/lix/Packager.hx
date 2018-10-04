@@ -20,8 +20,11 @@ class Packager {
 			case null | {ignore: null}: [];
 			case {ignore: v}: v.split('\n');
 		}
+		
+		// TODO: put these in a "global" .lixignore
 		patterns.push('.git');
 		patterns.push('.DS_Store');
+		
 		ignore = new Ignore(patterns);
 	}
 	

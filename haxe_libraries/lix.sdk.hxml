@@ -3,4 +3,5 @@
 -lib archive
 -lib lix.server
 -lib tink_web
+-lib tink_await
 -lib hxjs-amazon-cognito-auth-js
