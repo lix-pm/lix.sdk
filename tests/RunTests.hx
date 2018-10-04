@@ -7,7 +7,7 @@ using tink.CoreApi;
 
 class RunTests {
   static function main() {
-    var packager = new lix.Packager(new archive.zip.NodeZip(), new archive.scanner.AsysScanner(Sys.getCwd()));
+    var packager = new lix.Packager(new archive.zip.NodeZip(), new archive.scanner.AsysScanner(Sys.getCwd(), ''));
     packager.pack().pipeTo(asys.io.File.writeStream('./test.zip')).handle(o -> trace(o));
     
     var json:lix.Json = {

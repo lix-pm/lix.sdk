@@ -1,5 +1,5 @@
 -D archive=0.0.0
-# @install: lix --silent download "gh://github.com/kevinresol/archive#c020c596f90d6b6fe9555b5e0bcc30cbf1967313" into archive/0.0.0/github/c020c596f90d6b6fe9555b5e0bcc30cbf1967313
+# @install: lix --silent download "gh://github.com/kevinresol/archive#b28cecd88074b0d60eb101e917e9c88ec5dd9e04" into archive/0.0.0/github/b28cecd88074b0d60eb101e917e9c88ec5dd9e04
 -lib tink_io
 -lib format
--cp ${HAXE_LIBCACHE}/archive/0.0.0/github/c020c596f90d6b6fe9555b5e0bcc30cbf1967313/src
+-cp ${HAXE_LIBCACHE}/archive/0.0.0/github/b28cecd88074b0d60eb101e917e9c88ec5dd9e04/src
