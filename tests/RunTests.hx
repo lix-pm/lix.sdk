@@ -9,7 +9,7 @@ using tink.CoreApi;
 
 class RunTests {
   static function main() {
-    var json:lix.Json = {
+    var manifest:lix.Manifest = {
       name: 'name',
       license: 'license',
       tags: ['tags1', 'tags2'],

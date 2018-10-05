@@ -5,7 +5,7 @@ import tink.semver.Version;
 import tink.semver.Resolve;
 import tink.semver.Constraint;
 
-typedef Json = {
+typedef Manifest = {
 	?owner:String,
 	name:String,
 	classPaths:Array<String>,
