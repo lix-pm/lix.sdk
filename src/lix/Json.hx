@@ -6,15 +6,17 @@ import tink.semver.Resolve;
 import tink.semver.Constraint;
 
 typedef Json = {
+	?owner:String,
 	name:String,
-	license:String,
-	tags:Array<String>,
 	classPaths:Array<String>,
-	contributors:Array<String>,
-	releaseNote:String,
 	version:Version,
 	dependencies:DynamicAccess<Constraint>,
 	haxe:Constraint,
+	?authors:Array<String>,
+	?license:String,
+	?tags:Array<String>,
+	?url:String,
+	?description:String,
 	?hooks:{
 		?postInstall:String,
 		?postDownload:String,

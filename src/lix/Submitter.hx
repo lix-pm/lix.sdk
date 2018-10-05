@@ -28,12 +28,27 @@ class Submitter {
 		var json:Json = tink.Json.parse(content);
 		var lixignore = @:await Path.join([directory, '.lixignore']).getContent().recover(_ -> cast Future.NULL);
 		var packager = new Packager(zip, getScanner(directory), {ignore: lixignore});
-		var version = @:await remote.projects().byId(json.name).versions().create({
+		
+		var me = @:await remote.me().get();
+		var owner = json.owner == null ? me.username : json.owner;
+		var slug = owner + '/' + json.name;
+		
+		// create project if not exists
+		@:await remote.projects().byId(slug).info()
+			.next(project -> Noise)
+			.tryRecover(e -> {
+				if(e.code == NotFound)
+					remote.owners().byName(owner).projects().create(json);
+				else
+					e;
+			});
+		
+		var version = @:await remote.projects().byId(slug).versions().create({
 			version: json.version,
 			dependencies: [for(lib in json.dependencies.keys()) {name: lib, constraint: json.dependencies[lib]}],
 			haxe: json.haxe,
 		});
-		var request = @:await remote.projects().byId(json.name).versions().ofVersion(json.version).upload();
+		var request = @:await remote.projects().byId(slug).versions().ofVersion(json.version).upload();
 		var response = @:await fetch(request.url, {
 			method: request.method,
 			body: packager.pack().idealize(_ -> Source.EMPTY),

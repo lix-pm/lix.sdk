@@ -23,6 +23,11 @@ class AuthedClient implements ClientObject {
 	var proxy:Client;
 	var getIdToken:Void->Promise<String>;
 	
+	static inline var AUTH_SCHEME =
+	#if (environment == "local") 'Direct'
+	#else 'Berar'
+	#end ;
+	
 	public function new(proxy, getIdToken) {
 		this.proxy = proxy;
 		this.getIdToken = getIdToken;
@@ -31,7 +36,7 @@ class AuthedClient implements ClientObject {
 	public function request(req:OutgoingRequest):Promise<IncomingResponse> {
 		return getIdToken()
 			.next(token -> proxy.request(new OutgoingRequest(
-				req.header.concat([new HeaderField(AUTHORIZATION, 'Bearer $token')]),
+				req.header.concat([new HeaderField(AUTHORIZATION, '$AUTH_SCHEME $token')]),
 				req.body
 			)));
 	}

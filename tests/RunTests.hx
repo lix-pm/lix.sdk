@@ -1,5 +1,7 @@
 package ;
 
+import archive.zip.*;
+import archive.scanner.*;
 import tink.http.clients.*;
 
 using tink.io.Source;
@@ -12,8 +14,7 @@ class RunTests {
       license: 'license',
       tags: ['tags1', 'tags2'],
       classPaths: ['cp1', 'cp2'],
-      contributors: ['kevin'],
-      releaseNote: 'releaseNote',
+      authors: ['kevin'],
       version: '1.0.0',
       dependencies: {
         tink_core: '^1.0.0 || =0.1.0',
@@ -33,8 +34,11 @@ class RunTests {
     // // trace(auth.isSignedIn());
     // // auth.getSession().handle(function(o) trace(o.sure()));
     var remote = new lix.Remote(
-      #if (environment == "local") new NodeClient() #else new SecureNodeClient() #end, 
-      () -> auth.getSession().next(session -> session.idToken)
+      #if (environment == "local")
+        new NodeClient(), () -> '2'
+      #else
+        new SecureNodeClient(), () -> auth.getSession().next(session -> session.idToken)
+      #end
     );
     
     // remote.version().handle(function(o) switch o {
@@ -55,6 +59,7 @@ class RunTests {
     //     case Success(user): trace('Logged in as ${user.username}');
     //     case Failure(e): trace(e);
     //   });
-    var submitter = new lix.Submitter(remote, new archive.zip.NodeZip(), archive.scanner.AsysScanner.new.bind(_, ''));
+    var submitter = new lix.Submitter(remote, new NodeZip(), AsysScanner.new.bind(_, ''));
+    submitter.submit(Sys.getCwd()).handle(function(o) trace(o));
   }
 }

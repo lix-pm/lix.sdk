@@ -1,0 +1,22 @@
+{
+  "owner": "kevin",
+  "name": "lix.sdk",
+  "license": "MIT",
+  "tags": [
+    "lix"
+  ],
+  "classPaths": ["src"],
+  "contributors": [
+    "kevinresol"
+  ],
+  "releaseNote": "initial release",
+  "version": "0.1.0",
+  "haxe": "4.0.0",
+  "dependencies": {
+    "asys": "",
+    "archive": "",
+    "lix.server": "",
+    "tink_await": "",
+    "tink_web": ""
+  }
+}
