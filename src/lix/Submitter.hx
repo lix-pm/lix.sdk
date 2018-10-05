@@ -48,7 +48,7 @@ class Submitter {
 			dependencies: [for (dep in manifest.dependencies) {name: dep.name, constraint: dep.version}],
 			haxe: manifest.haxe,
 		});
-		var request = @:await remote.projects().byId(slug).versions().ofVersion(manifest.version).upload();
+		var request = @:await remote.projects().byId(slug).versions().byVersion(manifest.version).upload();
 		var response = @:await fetch(request.url, {
 			method: request.method,
 			body: packager.pack().idealize(_ -> Source.EMPTY),
