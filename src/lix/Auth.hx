@@ -104,7 +104,7 @@ class CognitoAuth {
 		
 		impl = new aws.cognito.CognitoAuth({
 			ClientId: 'fvrf50i7h5od9nr1bq4pefcg3',
-			AppWebDomain: 'lix.auth.us-east-2.amazoncognito.com',
+			AppWebDomain: 'login.lix.pm',
 			RedirectUriSignIn: 'http://localhost:51379/callback',
 			RedirectUriSignOut: 'http://localhost:51379/logout',
 			TokenScopesArray: ['openid'],
