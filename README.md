@@ -27,3 +27,10 @@ var remote = new lix.Remote(
 // try it:
 remote.version().handle(o -> trace(o.sure()));
 ```
+
+#### Submit current directory to the Lix Registry
+
+```haxe
+var submitter = new lix.Submitter(remote, new archive.zip.NodeZip(), archive.scanner.AsysScanner.new.bind(_, ''));
+submitter.submit(Sys.getCwd()).handle(o -> trace(o.sure()));
+```
