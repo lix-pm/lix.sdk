@@ -2,15 +2,14 @@ package lix;
 
 import haxe.DynamicAccess;
 import tink.semver.Version;
-import tink.semver.Resolve;
 import tink.semver.Constraint;
 
 typedef Manifest = {
-	?owner:String,
+	?owner:String, // when omited, defaults to the current session's username
 	name:String,
 	classPaths:Array<String>,
 	version:Version,
-	dependencies:DynamicAccess<Constraint>,
+	dependencies:Array<Dependency>,
 	haxe:Constraint,
 	?authors:Array<String>,
 	?license:String,
@@ -21,4 +20,9 @@ typedef Manifest = {
 		?postInstall:String,
 		?postDownload:String,
 	}
+}
+
+typedef Dependency = {
+	name:String,
+	version:Constraint,
 }

@@ -12,11 +12,11 @@
   "releaseNote": "initial release",
   "version": "0.1.0",
   "haxe": "4.0.0",
-  "dependencies": {
-    "asys": "",
-    "archive": "",
-    "lix.server": "",
-    "tink_await": "",
-    "tink_web": ""
-  }
+  "dependencies": [
+    {"name": "asys", "version": "*"},
+    {"name": "archive", "version": "*"},
+    {"name": "lix.server", "version": "*"},
+    {"name": "tink_await", "version": "*"},
+    {"name": "tink_web", "version": "*"}
+  ]
 }

@@ -16,10 +16,10 @@ class RunTests {
       classPaths: ['cp1', 'cp2'],
       authors: ['kevin'],
       version: '1.0.0',
-      dependencies: {
-        tink_core: '^1.0.0 || =0.1.0',
-        tink_macro: '=1.0.0',
-      },
+      dependencies: [
+        {name: 'tink_core', version: '^1.0.0 || =0.1.0'},
+        {name: 'tink_macro', version: '=1.0.0'},
+      ],
       haxe: '^3.4.7',
       hooks:{
         postInstall: 'postInstall',

@@ -45,7 +45,7 @@ class Submitter {
 		
 		var version = @:await remote.projects().byId(slug).versions().create({
 			version: manifest.version,
-			dependencies: [for(lib in manifest.dependencies.keys()) {name: lib, constraint: manifest.dependencies[lib]}],
+			dependencies: [for (dep in manifest.dependencies) {name: dep.name, constraint: dep.version}],
 			haxe: manifest.haxe,
 		});
 		var request = @:await remote.projects().byId(slug).versions().ofVersion(manifest.version).upload();
