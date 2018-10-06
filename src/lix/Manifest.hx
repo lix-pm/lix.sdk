@@ -19,7 +19,8 @@ typedef Manifest = {
 	?hooks:{
 		?postInstall:String,
 		?postDownload:String,
-	}
+	},
+	?custom:DynamicAccess<Dynamic>,
 }
 
 typedef Dependency = {
