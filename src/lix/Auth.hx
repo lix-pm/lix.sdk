@@ -102,8 +102,7 @@ class CognitoAuth {
 	
 	public function new() {
 		// Some hacks to make the cognito library work in nodejs
-		js.Node.global.atob = js.Lib.require('atob');
-		js.Node.global.btoa = js.Lib.require('btoa');
+		js.Node.global.atob = (str:String) -> js.node.Buffer.from(str, 'base64').toString('binary');
 		js.Node.global.window = {open: url -> js.Lib.require('opn')(url, {wait: false})}
 		
 		impl = new aws.cognito.CognitoAuth({
