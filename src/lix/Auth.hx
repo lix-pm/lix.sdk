@@ -18,7 +18,7 @@ class Auth {
 	public function new()
 		auth = new CognitoAuth();
 		
-	public function isSignedIn():Bool
+	public inline function isSignedIn():Bool
 		return auth.isSignedIn;
 	
 	public function getSession():Promise<Session> {
@@ -39,6 +39,10 @@ class Auth {
 			auth.result.handle(cb);
 			auth.getSession();
 		});
+	}
+	
+	public inline function clearSession() {
+		auth.signOut();
 	}
 }
 
@@ -126,12 +130,16 @@ class CognitoAuth {
 		
 	}
 	
-	public function getSession() {
+	public inline function getSession() {
 		impl.useCodeGrantFlow();
 		impl.getSession();
 	}
 	
-	public function handleToken(token:TokenResponse)
+	public inline function signOut() {
+		impl.signOut();
+	}
+	
+	public inline function handleToken(token:TokenResponse)
 		impl.parseCognitoWebResponse('http://localhost:51379#' + tink.QueryString.build(token));
 		
 	inline function get_isSignedIn() return impl.isUserSignedIn();
