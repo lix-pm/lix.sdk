@@ -10,6 +10,7 @@ import js.node.Os;
 import haxe.Json;
 
 using haxe.io.Path;
+using sys.io.File;
 using sys.FileSystem;
 using tink.CoreApi;
 
@@ -41,8 +42,9 @@ class Auth {
 		});
 	}
 	
-	public inline function clearSession() {
-		auth.signOut();
+	public function clearSession():Promise<Noise> {
+		Path.join([Os.homedir(), '.lix/session']).saveContent('{}');
+		return Noise;
 	}
 }
 
