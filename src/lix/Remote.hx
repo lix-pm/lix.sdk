@@ -11,7 +11,7 @@ using tink.CoreApi;
 
 @:forward
 abstract Remote(tink.web.proxy.Remote<lix.api.Root>) {
-	public inline function new(client, getIdToken) {
+	public inline function new(client, ?getIdToken) {
 		this = new tink.web.proxy.Remote<lix.api.Root>(
 			new AuthedClient(client, getIdToken), 
 			new RemoteEndpoint(API_SERVER_HOST)
@@ -34,10 +34,14 @@ class AuthedClient implements ClientObject {
 	}
 	
 	public function request(req:OutgoingRequest):Promise<IncomingResponse> {
-		return getIdToken()
-			.next(token -> proxy.request(new OutgoingRequest(
+		return switch getIdToken {
+			case null:
+				proxy.request(req);
+			case f:
+			f().next(token -> proxy.request(new OutgoingRequest(
 				req.header.concat([new HeaderField(AUTHORIZATION, '$AUTH_SCHEME $token')]),
 				req.body
 			)));
+		}
 	}
 }
