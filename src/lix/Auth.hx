@@ -54,14 +54,16 @@ class Root {
 		this.auth = auth;
 	
 	@:get
-	@:params(code in query)
+	@:html(_ -> '<script>window.location.href = window.location.href.replace("/callback#","/done?")</script>')
+	public function callback():Promise<Noise> {
+		return Noise;
+	}
+	
+	@:get
 	@:html(_ -> '<script>window.close()</script>')
-	public function callback(code:String):Promise<Noise> {
-		return OAuthHelper.callback(code, 'http://localhost:51379/callback')
-			.next(token -> {
-				auth.handleToken(token);
-				auth.result;
-			});
+	public function done(query:TokenResponse):Promise<Noise> {
+		auth.handleToken(query);
+		return Noise;
 	}
 }
 
@@ -132,7 +134,6 @@ class CognitoAuth {
 	}
 	
 	public inline function getSession() {
-		impl.useCodeGrantFlow();
 		impl.getSession();
 	}
 	
