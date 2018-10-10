@@ -25,7 +25,7 @@ class AuthedClient implements ClientObject {
 	
 	static inline var AUTH_SCHEME =
 	#if (environment == "local") 'Direct'
-	#else 'Berar'
+	#else 'Bearer'
 	#end ;
 	
 	public function new(proxy, getIdToken) {
