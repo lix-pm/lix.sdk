@@ -3,6 +3,7 @@ package lix;
 import archive.*;
 import archive.zip.*;
 import tink.http.Client.*;
+import tink.http.Header;
 
 using asys.io.File;
 using haxe.io.Path;
@@ -49,10 +50,17 @@ class Submitter {
 			haxe: manifest.haxe,
 		});
 		var request = @:await remote.projects().byId(slug).versions().byVersion(manifest.version).upload();
+		
+		var bundle = @:await packager.pack().all();
 		var response = @:await fetch(request.url, {
+			headers: [
+				new HeaderField(CONTENT_LENGTH, Std.string(bundle.length)),
+				new HeaderField(CONTENT_TYPE, 'application/zip'),
+			],
 			method: request.method,
-			body: packager.pack().idealize(_ -> Source.EMPTY),
+			body: bundle,
 		}).all();
+		
 		return Noise;
 	}
 }
