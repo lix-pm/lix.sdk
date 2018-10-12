@@ -29,6 +29,7 @@ class Submitter {
 		var manifest:Manifest = tink.Json.parse(content);
 		var lixignore = @:await Path.join([directory, '.lixignore']).getContent().recover(_ -> cast Future.NULL);
 		var packager = new Packager(zip, getScanner(directory), {ignore: lixignore});
+		var bundle = @:await packager.pack().all();
 		
 		var me = @:await remote.me().get();
 		var owner = manifest.owner == null ? me.username : manifest.owner;
@@ -51,7 +52,6 @@ class Submitter {
 		});
 		var request = @:await remote.projects().byId(slug).versions().byVersion(manifest.version).upload();
 		
-		var bundle = @:await packager.pack().all();
 		var response = @:await fetch(request.url, {
 			headers: [
 				new HeaderField(CONTENT_LENGTH, Std.string(bundle.length)),
