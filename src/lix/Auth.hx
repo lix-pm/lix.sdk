@@ -98,7 +98,6 @@ class FileStorage {
 	function write(v:{}) Fs.writeFileSync(path, Json.stringify(v));
 }
 
-@:forward
 class CognitoAuth {
 	public var result:Promise<Session>;
 	public var isSignedIn(get, never):Bool;
